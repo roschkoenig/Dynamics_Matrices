@@ -35,7 +35,7 @@ ee_visualise_measures
 ```
 In order to visualise the measures used for further analysis, running `ee_visualise_measures` will perform the same analysis on a simple selection of synthetically generated matrices that differe in the smoothness of transitions between different regions, and in the amplitude of the difference contained in the matrix. The code will produce the illustrative figure below that is the basis for __Fig 3__ in the manuscript. 
 
-![Measure visualisation](https://cloud.githubusercontent.com/assets/12950773/25225984/3ce16076-25bb-11e7-92e6-afd04ef549d0.png)
+<img src="https://cloud.githubusercontent.com/assets/12950773/25225984/3ce16076-25bb-11e7-92e6-afd04ef549d0.png" width="650"> </img>
 
 
 ### Analyse synthetic EEG time series
@@ -44,7 +44,7 @@ ee_synthgen
 ```
 As part of the statistical analysis, we generated surrogate time series with known frequency compositions based on the existing EEG windows. The routine `ee_synthgen` will generate a few such time series and illustrate the dynamics matrices that are derived from performing the equivalent analysis to that performed in `ee_estimate`. This will result in the figure shown below, showing example surrogate time series, as well as the dynamics matrices. 
 
-![Surrpage time series](https://cloud.githubusercontent.com/assets/12950773/25225096/39f00b4a-25b8-11e7-8414-cc8da14db957.png)
+![Surrogate time series](https://cloud.githubusercontent.com/assets/12950773/25225096/39f00b4a-25b8-11e7-8414-cc8da14db957.png)
 
 ### Reproduce dotplots from Manuscript 
 ``` 
@@ -52,18 +52,20 @@ ee_dotplotfigures
 ```
 This function loads the dynamics measures estimated from our EEG segments and plots them using the `ee_dotplot` function to reproduce the figures shown in the manuscript as __Fig 6__. 
 
-![Group Statistics](https://cloud.githubusercontent.com/assets/12950773/25225099/39f80642-25b8-11e7-9f56-cd7ff9b09fa0.png)
+<img src="https://cloud.githubusercontent.com/assets/12950773/25225099/39f80642-25b8-11e7-9f56-cd7ff9b09fa0.png" width="650"> </img>
 
 ### Optimise thresholds for categorisation for single measure
 ```
 ee_simanneal
 ```
-![Example of high-performing measures](https://cloud.githubusercontent.com/assets/12950773/25225101/3a126064-25b8-11e7-90e6-80c1a01e86dd.png)
+
+<img src="https://cloud.githubusercontent.com/assets/12950773/25225101/3a126064-25b8-11e7-90e6-80c1a01e86dd.png" width="450"> </img>
 
 ### Perform k-means clustering to evaluate combinations of different measures
 ``` 
 ee_kmeans
 ```
-![Performance of clustering](https://cloud.githubusercontent.com/assets/12950773/25225100/39fa729c-25b8-11e7-99c7-f2fa34fa84d4.png)
 
-![Example 2D clustering](https://cloud.githubusercontent.com/assets/12950773/25225098/39f369a2-25b8-11e7-9ac3-cdd0659b2160.png)
+<img src="https://cloud.githubusercontent.com/assets/12950773/25225100/39fa729c-25b8-11e7-99c7-f2fa34fa84d4.png" width="450"> </img>
+
+<img src="https://cloud.githubusercontent.com/assets/12950773/25225098/39f369a2-25b8-11e7-9ac3-cdd0659b2160.png" width="450"> </img>
