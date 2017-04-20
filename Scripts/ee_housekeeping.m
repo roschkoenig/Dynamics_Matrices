@@ -10,7 +10,7 @@ Fbase       = '/Users/roschkoenig/Desktop/GitCode/Dynamics_Matrices';
 
 Fscripts    = [Fbase fs 'Scripts'];
 Fanalysis   = [Fbase fs 'Analysis'];
-addpath(Fscripts);
+addpath(genpath(Fscripts));
 
 % Pack for Exporting
 %--------------------------------------------------------------------------
