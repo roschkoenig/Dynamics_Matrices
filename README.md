@@ -2,6 +2,7 @@
 _Code accompanying Rosch et al (2017): Network dynamics in the healthy and epileptic developing brain_
 
 This repository contains code that can be used to reproduce analyses to identify differences in network dynamics between different resting state EEG patterns. This code was used for the above manuscript to describe abnormalities in network dynamics that characterise two severe epilepsy syndromes of early infancy, Ohtahara syndrome and West syndrome / Infantile Spasms. 
+__When running the code, you will need to download and unzip the folder, and define the home-folder in the `ee_housekeeping` function__
 
 ![Network Dynamics](https://cloud.githubusercontent.com/assets/12950773/25225095/39dc524e-25b8-11e7-8e05-4ef5d3aaec8e.png)
 
@@ -54,18 +55,30 @@ This function loads the dynamics measures estimated from our EEG segments and pl
 
 <img src="https://cloud.githubusercontent.com/assets/12950773/25225099/39f80642-25b8-11e7-9f56-cd7ff9b09fa0.png" width="650"> </img>
 
-### Optimise thresholds for categorisation for single measure
+### Optimise thresholds for categorisation based on single measure
 ```
 ee_simanneal
 ```
+This routine will apply a simulated annealing approach (as implemented in Matlab) to optimise categorisation of disease groups (i.e. Ohtahara syndrome, West syndrome, and normal controls) based on single dynamics metrics. The routine will adjust two thresholds that separate groups according to whether the individual measurement lies above, below or between the thresholds. This optimisation is based on a purity measure for the resultant clustering (defined in `ee_impurity`). 
+
+The maximally achieved purity is then used to rank different measures in terms of how well they separate different groups. The routine will produce a 3D scatter plot of the three highest ranking measures, also shown in the manuscript in __Fig 8__ (although note that the annealing results may yield slightly different measures being included in the top three). The full ranklist from the publication is available as `Allstats_cluster_purity.csv` in the `Analysis` folder of this repository. 
 
 <img src="https://cloud.githubusercontent.com/assets/12950773/25225101/3a126064-25b8-11e7-90e6-80c1a01e86dd.png" width="450"> </img>
 
-### Perform k-means clustering to evaluate combinations of different measures
+### Perform *k*-means clustering to evaluate combinations of different measures
 ``` 
 ee_kmeans
 ```
+This routine will apply a k-means clustering approach to automatically identify clusters in combinations of network dynamics measures, drawn from the `Allstats_cluster_purity.csv` ranklist derived from the purity ranking above. The resultant clusters are then evaluated for purity, sensitivity (in terms of separating healthy from abnormal EEG patterns), and specificity (again healthy vs abnormal). This is repeated for different numbers of measures included in the clustering (ranging from 1 - 30) and the results are given as the following output figure. 
 
 <img src="https://cloud.githubusercontent.com/assets/12950773/25225100/39fa729c-25b8-11e7-99c7-f2fa34fa84d4.png" width="450"> </img>
 
+To illustrate the clustering process, we also show a 2D clustering based on the 2 highest ranking variables from the ranklist above. This clustering is not very robust, so will likely appear different with different runs of the same code. 
+
 <img src="https://cloud.githubusercontent.com/assets/12950773/25225098/39f369a2-25b8-11e7-9ac3-cdd0659b2160.png" width="450"> </img>
+
+## Other custom functions
+* `ee_dotplot` - custom dotplot function that will also indicate significant results from *t*-test
+* `ee_housekeeping` - function to define filepaths and modify path
+* `ee_impurity` - objective function optimised during the simulated annealing optimisation above
+
