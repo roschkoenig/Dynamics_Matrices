@@ -13,7 +13,7 @@ The code runs on Matlab (tested with 2016b) and requires a number of toolboxes t
 * [textprogressbar](https://uk.mathworks.com/matlabcentral/fileexchange/28067-text-progress-bar) - to easily visualise progress during slow computational steps (included in this repo)
 * [Statistic Parametric Mapping](http://www.fil.ion.ucl.ac.uk/spm/) - For the filtering of EEG signals, this code relies on fieldtrip provided as part of the standard SPM distribution; this can be easily replaced by another filter method of your choice (_SPM is not included here_)
 
-## Custom rotuines included in this repository
+## Custom routines included in this repository
 The repository includes a number of different routines to be run manually to illustrate the different analysis steps performed for the manuscript above. Most of these will produce a visual output and are further explained below. 
 
 ### Plot an example EEG segment
