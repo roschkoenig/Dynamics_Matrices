@@ -33,7 +33,7 @@ plids   = {oh, ws, co};
 
 plvar = {'ZPmean_all', 'ZCmean_all', 'ZPcont_all', 'ZCcont_all', 'ZPsharp_all', 'ZCsharp_all'};
 
-for v = 1:length(plvar);
+for v = 1:length(plvar)
 cid = find(strcmp(plvar{v}, cnames));
 
 for p = 1:length(plids)
