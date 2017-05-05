@@ -1,5 +1,5 @@
 # Network Dynamics Measures for EEG
-_Code accompanying Rosch et al (2017): Network dynamics in the healthy and epileptic developing brain_
+_Code accompanying __Rosch et al (2017)__: Network dynamics in the healthy and epileptic developing brain. [bioRxiv](http://biorxiv.org/content/early/2017/05/02/133488)_
 
 This repository contains code that can be used to reproduce analyses to identify differences in network dynamics between different resting state EEG patterns. This code was used for the above manuscript to describe abnormalities in network dynamics that characterise two severe epilepsy syndromes of early infancy, Ohtahara syndrome and West syndrome / Infantile Spasms. 
 __When running the code, you will need to download and unzip the folder, and define the home-folder in the `ee_housekeeping` function__
@@ -82,3 +82,4 @@ To illustrate the clustering process, we also show a 2D clustering based on the 
 * `ee_housekeeping` - function to define filepaths and modify path
 * `ee_impurity` - objective function optimised during the simulated annealing optimisation above
 
+[![DOI](https://zenodo.org/badge/88738935.svg)](https://zenodo.org/badge/latestdoi/88738935)
