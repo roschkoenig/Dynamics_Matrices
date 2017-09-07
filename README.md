@@ -53,7 +53,7 @@ ee_dotplotfigures
 ```
 This function loads the dynamics measures estimated from our EEG segments and plots them using the `ee_dotplot` function to reproduce the figures shown in the manuscript as __Fig 6__. 
 
-<img src="https://cloud.githubusercontent.com/assets/12950773/25225099/39f80642-25b8-11e7-9f56-cd7ff9b09fa0.png" width="650"> </img>
+<img src="https://user-images.githubusercontent.com/12950773/30167187-7def87b0-93dd-11e7-98e4-bd18309c9aa1.png" width="650"> </img>
 
 ### Optimise thresholds for categorisation based on single measure
 ```
