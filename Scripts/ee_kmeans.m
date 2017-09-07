@@ -1,18 +1,14 @@
-%% K-means clustering
-%==========================================================================
-% This routine applies a k-means clustering algorithm on the dynamics
-% measures produced from the initial analysis, to evaluate whether they can
-% be used to separate groups into distinct categories, and assess the
-% sensitivity and specificity of differentiating healthy controls from
-% abnormal EEG patterns
-
-% Housekeeping
+%% Housekeeping
 %==========================================================================
 clear all
 fs          = filesep;
 D           = ee_housekeeping;
 Fanalysis   = D.Fanalysis;
 Fscripts    = D.Fscripts;
+
+addpath(Fscripts);
+[p, c]      = ee_definefiles;
+sub         = [p{:}, c{:}];  
 
 % Load stats matrix
 %--------------------------------------------------------------------------
@@ -27,14 +23,23 @@ for r = 1:length(rnames)
     cat(r) = rnames{r}(1);
 end
 
-%% Repeat clustering for increasing numbers of parameters
-%==========================================================================
-% Several repetitions are run to identify the cluster assignments with 
-% the highest purity, to illustrate the maximally achievable purity
+%%
+orig_sort_i = sort_i;
+clear sort_i;
+i = 0;
+for o = 1:length(orig_sort_i)
+    if cnames{orig_sort_i(o)}(1) ~= 'Z' 
+        i       = i + 1;
+        sort_i(i) = orig_sort_i(o);
+    end
+end
 
+% Repeat clustering for increasing numbers of parameters
+%--------------------------------------------------------------------------
 textprogressbar('Clustering ');
 count = 1;
-for v = 1:30
+for v = 1:20
+    
 for r = 1:50 
 textprogressbar((count * 100) / (30*50))
 
@@ -76,25 +81,16 @@ for s = 1:size(sens,1)
    bestsens(s)  = sens(s,loc);
    bestspec(s)  = spec(s,loc);
 end
-
-subplot(3,1,1), plot(bestpur); ylim([0 1]); title('Purity');
-subplot(3,1,2), plot(bestsens); ylim([0 1]); title('Sensitivity');
-subplot(3,1,3), plot(bestspec); ylim([0 1]); title('Specificity');
+subplot(3,1,1), plot(bestpur); ylim([0 1]);
+subplot(3,1,2), plot(bestsens); ylim([0 1]);
+subplot(3,1,3), plot(bestspec); ylim([0 1]);
 
 %% Illustrate a single two dimensional solution
-%==========================================================================
-% This produces the figure used in figure 8 of the manuscript, but the
-% clustering at the level of just 2 variables is not very robust, so the
-% figure may look dissimilar from the one in the manuscript
+%--------------------------------------------------------------------------
 
-ranklist = csv2cell([Fanalysis fs 'Allstats_cluster_purity.csv'], 'fromfile');
-
-v1 = find(strcmp(cnames, ranklist{2,1}));
-v2 = find(strcmp(cnames, ranklist{3,1}));
-
-[idx centroids] = kmeans(C(:,[v1 v2]),3);
-c1 = linspace(min(C(:,v1)), max(C(:,v1)), 500);
-c2 = linspace(min(C(:,v2)), max(C(:,v2)), 500);
+[idx centroids] = kmeans(C(:,sort_i(1:2)),3);
+c1 = linspace(min(C(:,sort_i(1))), max(C(:,sort_i(1))), 500);
+c2 = linspace(min(C(:,sort_i(2))), max(C(:,sort_i(2))), 500);
 [c1G,c2G] = meshgrid(c1,c2);
 CGrid = [c1G(:),c2G(:)];
 idx2Region = kmeans(CGrid,3,'MaxIter',1,'Start',centroids);
@@ -112,6 +108,38 @@ cols    = cbrewer('qual', 'Dark2', 3);
 
 for p = 1:length(plids)
     pl = plids{p};
-    scatter(C(pl,v1),C(pl,v2),50,cols(p,:), 'filled');
+    scatter(C(pl,sort_i(1)),C(pl,sort_i(2)),50,cols(p,:), 'filled');
 end
 
+
+%% Identify maximum purity cluster 
+%--------------------------------------------------------------------------
+for r = 1:25
+    [val loc] = max(max(purity'));
+    [idx centroids] = kmeans(C(:,sort_i(1:2)),3);
+    
+    cattypes = unique(cat);
+    catcombs = perms(cattypes);
+    newcat   = idx';
+
+    for p = 1:size(catcombs,1)
+        for i = 1:length(cat)
+            numcat(i) = find(cat(i) == catcombs(p,:));
+        end
+        pur(p) = sum(numcat == newcat) / length(numcat);
+    end
+    [val loc] = max(pur);
+    for i = 1:length(idx)
+        ncat(i) = catcombs(loc,idx(i));
+    end
+    abn_known = cat ~= 'C';
+    abn_estim = ncat ~= 'C';
+    nml_known = cat == 'C';
+    nml_estim = ncat == 'C';
+    
+    sens(r) = sum(abn_estim(find(abn_known)))/sum(abn_known);
+    spec(r) = sum(nml_estim(find(nml_known)))/sum(nml_known);
+end
+
+[val loc] = max(sens+spec)
+disp(['Sens: ' num2str(sens(loc)) ', Spec: ' num2str(spec(loc))])
